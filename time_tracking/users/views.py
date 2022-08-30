@@ -2,6 +2,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions, status, generics
 from .serializers import UserSerializer, UserLoginSerializer
+from .models import User
 
 
 class RegisterView(generics.CreateAPIView):
@@ -26,3 +27,11 @@ class LoginView(APIView):
             'token': serializer.data['token']
         }
         return Response(response, status=status.HTTP_200_OK)
+
+
+class UserUpdateProfile(generics.RetrieveUpdateAPIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = UserLoginSerializer
+
+    def get_queryset(self):
+        return User.objects.filter(id=self.request.user.id)
