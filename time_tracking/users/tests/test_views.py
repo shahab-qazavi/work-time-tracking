@@ -29,7 +29,9 @@ class TestUserLogin(TestCase):
         self.url = reverse('login')
         self.view = views.LoginView
         user = UserFactory
-        user.create()
+        user = user.create()
+        user.save()
+
 
     @parameterized.expand([('steven.ghzv@gmail.com', '123456', 200),
                            ('steven.ghzv@gmail.com', '123456steven', 400), ])
