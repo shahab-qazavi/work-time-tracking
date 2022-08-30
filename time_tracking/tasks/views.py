@@ -3,6 +3,7 @@ from rest_framework.views import APIView
 from rest_framework import permissions, status, generics
 from .models import Tasks
 from .serializers import TasksSerializer
+from drf_yasg.utils import swagger_auto_schema
 
 
 class TasksList(generics.ListAPIView):
@@ -30,6 +31,7 @@ class TasksDelete(generics.DestroyAPIView):
 class TasksUpdate(APIView):
     permission_classes = (permissions.IsAuthenticated,)
 
+    @swagger_auto_schema(request_body=TasksSerializer)
     def post(self, request, pk):
         serializer = TasksSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
